@@ -26,9 +26,11 @@ const validateRedirectUrl = redirectUrl =>
 export const authorize = ({
   issuer,
   redirectUrl,
+  callbackUrl,
   clientId,
   clientSecret,
   scopes,
+  state,
   additionalParameters,
   serviceConfiguration,
   dangerouslyAllowInsecureHttpRequests = false,
@@ -42,9 +44,11 @@ export const authorize = ({
   const nativeMethodArguments = [
     issuer,
     redirectUrl,
+    callbackUrl,
     clientId,
     clientSecret,
     scopes,
+    state,
     additionalParameters,
     serviceConfiguration,
   ];

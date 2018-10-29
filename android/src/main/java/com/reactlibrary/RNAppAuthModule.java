@@ -61,9 +61,11 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
     public void authorize(
             String issuer,
             final String redirectUrl,
+            final String callbackUrl,
             final String clientId,
             final String clientSecret,
             final ReadableArray scopes,
+            final String state,
             final ReadableMap additionalParameters,
             final ReadableMap serviceConfiguration,
             final Boolean dangerouslyAllowInsecureHttpRequests,
@@ -94,6 +96,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                         clientId,
                         scopesString,
                         redirectUrl,
+                        state,
                         additionalParametersMap
                 );
             } catch (Exception e) {
@@ -118,6 +121,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                                     clientId,
                                     scopesString,
                                     redirectUrl,
+                                    state,
                                     additionalParametersMap
                             );
                         }
@@ -273,6 +277,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
             final String clientId,
             final String scopesString,
             final String redirectUrl,
+            final String state,
             final Map<String, String> additionalParametersMap
     ) {
 
@@ -285,8 +290,9 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                         clientId,
                         ResponseTypeValues.CODE,
                         Uri.parse(redirectUrl)
-                )
-                        .setScope(scopesString);
+                );
+        authRequestBuilder.setScope(scopesString);
+        authRequestBuilder.setState(state);
 
         if (additionalParametersMap != null) {
             // handle additional parameters separately to avoid exceptions from AppAuth
