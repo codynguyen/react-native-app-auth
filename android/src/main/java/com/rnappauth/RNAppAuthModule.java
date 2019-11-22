@@ -74,6 +74,8 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
         final Boolean warmAndPrefetchChrome,
         final String issuer,
         final String redirectUrl,
+        final String callbackUrl,
+        final String state,
         final String clientId,
         final ReadableArray scopes,
         final ReadableMap serviceConfiguration,
@@ -134,6 +136,8 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
     public void authorize(
             String issuer,
             final String redirectUrl,
+            final String callbackUrl,
+            final String state,
             final String clientId,
             final String clientSecret,
             final ReadableArray scopes,
@@ -171,6 +175,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                         clientId,
                         scopes,
                         redirectUrl,
+                        state,
                         usePKCE,
                         additionalParametersMap
                 );
@@ -198,6 +203,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                                     clientId,
                                     scopes,
                                     redirectUrl,
+                                    state,
                                     usePKCE,
                                     additionalParametersMap
                             );
@@ -216,6 +222,8 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
     public void refresh(
             String issuer,
             final String redirectUrl,
+            final String callbackUrl,
+            final String state,
             final String clientId,
             final String clientSecret,
             final String refreshToken,
@@ -303,7 +311,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                 promise.reject("Failed to authenticate", "Data intent is null" );
                 return;
             }
-            
+
             final AuthorizationResponse response = AuthorizationResponse.fromIntent(data);
             AuthorizationException exception = AuthorizationException.fromIntent(data);
             if (exception != null) {
@@ -365,6 +373,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
             final String clientId,
             final ReadableArray scopes,
             final String redirectUrl,
+            final String state,
             final Boolean usePKCE,
             final Map<String, String> additionalParametersMap
     ) {
@@ -388,6 +397,10 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
 
         if (scopesString != null) {
             authRequestBuilder.setScope(scopesString);
+        }
+
+        if (state != null) {
+            authRequestBuilder.setState(state);
         }
 
 

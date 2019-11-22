@@ -21,6 +21,8 @@ const validateClientId = clientId =>
   invariant(typeof clientId === 'string', 'Config error: clientId must be a string');
 const validateRedirectUrl = redirectUrl =>
   invariant(typeof redirectUrl === 'string', 'Config error: redirectUrl must be a string');
+const validateCallbackUrl = callbackUrl =>
+  invariant(typeof callbackUrl === 'string', 'Config error: callbackUrl must be a string');
 
 const validateHeaders = headers => {
   if (!headers) {
@@ -52,6 +54,8 @@ export const prefetchConfiguration = async ({
   warmAndPrefetchChrome,
   issuer,
   redirectUrl,
+  callbackUrl,
+  state,
   clientId,
   scopes,
   serviceConfiguration,
@@ -62,12 +66,15 @@ export const prefetchConfiguration = async ({
     validateIssuerOrServiceConfigurationEndpoints(issuer, serviceConfiguration);
     validateClientId(clientId);
     validateRedirectUrl(redirectUrl);
+    validateCallbackUrl(callbackUrl);
     validateHeaders(customHeaders);
 
     const nativeMethodArguments = [
       warmAndPrefetchChrome,
       issuer,
       redirectUrl,
+      callbackUrl,
+      state,
       clientId,
       scopes,
       serviceConfiguration,
@@ -82,6 +89,8 @@ export const prefetchConfiguration = async ({
 export const authorize = ({
   issuer,
   redirectUrl,
+  callbackUrl,
+  state,
   clientId,
   clientSecret,
   scopes,
@@ -96,12 +105,15 @@ export const authorize = ({
   validateIssuerOrServiceConfigurationEndpoints(issuer, serviceConfiguration);
   validateClientId(clientId);
   validateRedirectUrl(redirectUrl);
+  validateCallbackUrl(callbackUrl);
   validateHeaders(customHeaders);
   // TODO: validateAdditionalParameters
 
   const nativeMethodArguments = [
     issuer,
     redirectUrl,
+    callbackUrl,
+    state,
     clientId,
     clientSecret,
     scopes,
@@ -128,6 +140,8 @@ export const refresh = (
   {
     issuer,
     redirectUrl,
+    callbackUrl,
+    state,
     clientId,
     clientSecret,
     scopes,
@@ -142,6 +156,7 @@ export const refresh = (
   validateIssuerOrServiceConfigurationEndpoints(issuer, serviceConfiguration);
   validateClientId(clientId);
   validateRedirectUrl(redirectUrl);
+  validateCallbackUrl(callbackUrl);
   validateHeaders(customHeaders);
   invariant(refreshToken, 'Please pass in a refresh token');
   // TODO: validateAdditionalParameters
@@ -149,6 +164,8 @@ export const refresh = (
   const nativeMethodArguments = [
     issuer,
     redirectUrl,
+    callbackUrl,
+    state,
     clientId,
     clientSecret,
     refreshToken,
