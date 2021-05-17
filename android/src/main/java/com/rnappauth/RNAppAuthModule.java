@@ -14,6 +14,7 @@ import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsServiceConnection;
 import androidx.browser.customtabs.CustomTabsSession;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -86,6 +87,8 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
         final Boolean warmAndPrefetchChrome,
         final String issuer,
         final String redirectUrl,
+        final String callbackUrl,
+        final String state,
         final String clientId,
         final ReadableArray scopes,
         final ReadableMap serviceConfiguration,
@@ -215,6 +218,8 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
     public void authorize(
             String issuer,
             final String redirectUrl,
+            final String callbackUrl,
+            final String state,
             final String clientId,
             final String clientSecret,
             final ReadableArray scopes,
@@ -251,6 +256,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                         clientId,
                         scopes,
                         redirectUrl,
+                        state,
                         usePKCE,
                         additionalParametersMap
                 );
@@ -281,6 +287,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                                         clientId,
                                         scopes,
                                         redirectUrl,
+                                        state,
                                         usePKCE,
                                         additionalParametersMap
                                 );
@@ -304,6 +311,8 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
     public void refresh(
             String issuer,
             final String redirectUrl,
+            final String callbackUrl,
+            final String state,
             final String clientId,
             final String clientSecret,
             final String refreshToken,
@@ -339,6 +348,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                         clientId,
                         scopes,
                         redirectUrl,
+                        state,
                         additionalParametersMap,
                         clientAuthMethod,
                         clientSecret,
@@ -372,6 +382,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                                         clientId,
                                         scopes,
                                         redirectUrl,
+                                        state,
                                         additionalParametersMap,
                                         clientAuthMethod,
                                         clientSecret,
@@ -531,6 +542,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
             final String clientId,
             final ReadableArray scopes,
             final String redirectUrl,
+            final String state,
             final Boolean usePKCE,
             final Map<String, String> additionalParametersMap
     ) {
@@ -554,6 +566,10 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
 
         if (scopesString != null) {
             authRequestBuilder.setScope(scopesString);
+        }
+
+        if (state != null) {
+            authRequestBuilder.setState(state);
         }
 
 
@@ -611,6 +627,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
             final String clientId,
             final ReadableArray scopes,
             final String redirectUrl,
+            final String state,
             final Map<String, String> additionalParametersMap,
             final String clientAuthMethod,
             final String clientSecret,
