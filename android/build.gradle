@@ -57,6 +57,10 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'net.openid:appauth:0.7.1'
+    implementation 'com.github.codynguyen:AppAuth-Android:wealthica-SNAPSHOT'
     implementation 'androidx.browser:browser:1.2.0'
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
